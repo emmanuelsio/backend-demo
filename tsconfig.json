@@ -17,7 +17,8 @@
     "ignoreDeprecations": "5.0",
     "types": ["vitest/globals"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "sourceMap": true
   },
   "extends": [],
   "exclude": ["node_modules"],
