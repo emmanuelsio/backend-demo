@@ -10,4 +10,9 @@ export default defineConfig({
     restoreMocks: true,
   },
   plugins: [tsconfigPaths()],
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
 });
