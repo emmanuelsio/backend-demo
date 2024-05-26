@@ -25,3 +25,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.src/dasta/drizzle/*.js
+.src/dasta/drizzle/migrations/migrate.js
