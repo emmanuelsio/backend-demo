@@ -2,11 +2,28 @@ import { StatusCodes } from 'http-status-codes';
 import request from 'supertest';
 
 import { User } from '@/api/user/userModel';
-import { users } from '@/api/user/userRepository';
 import { ServiceResponse } from '@/common/models/serviceResponse';
 import { app } from '@/server';
 
 describe('User API Endpoints', () => {
+  const mockUsers: User[] = [
+    {
+      id: 'E4F68B6D-260C-4DCE-AF15-A3B4B3F9924F',
+      name: 'Alice',
+      email: 'alice@example.com',
+      age: '42',
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString(),
+    },
+    {
+      id: '2B6520F7-5E8D-43FA-9CAF-FC4162DEBD73',
+      name: 'Bob',
+      email: 'bob@example.com',
+      age: '21',
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString(),
+    },
+  ];
   describe('GET /users', () => {
     it('should return a list of users', async () => {
       // Act
@@ -17,16 +34,16 @@ describe('User API Endpoints', () => {
       expect(response.statusCode).toEqual(StatusCodes.OK);
       expect(responseBody.success).toBeTruthy();
       expect(responseBody.message).toContain('Users found');
-      expect(responseBody.responseObject.length).toEqual(users.length);
-      responseBody.responseObject.forEach((user, index) => compareUsers(users[index] as User, user));
+      expect(responseBody.responseObject.length).toEqual(mockUsers.length);
+      responseBody.responseObject.forEach((user, index) => compareUsers(mockUsers[index] as User, user));
     });
   });
 
   describe('GET /users/:id', () => {
     it('should return a user for a valid ID', async () => {
       // Arrange
-      const testId = 1;
-      const expectedUser = users.find((user) => user.id === testId) as User;
+      const testId = 'E4F68B6D-260C-4DCE-AF15-A3B4B3F9924F';
+      const expectedUser = mockUsers.find((user) => user.id === testId) as User;
 
       // Act
       const response = await request(app).get(`/users/${testId}`);

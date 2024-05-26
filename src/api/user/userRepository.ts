@@ -1,16 +1,17 @@
-import { User } from '@/api/user/userModel';
+import { eq } from 'drizzle-orm';
 
-export const users: User[] = [
-  { id: 1, name: 'Alice', email: 'alice@example.com', age: 42, createdAt: new Date(), updatedAt: new Date() },
-  { id: 2, name: 'Bob', email: 'bob@example.com', age: 21, createdAt: new Date(), updatedAt: new Date() },
-];
+import { User } from '@/api/user/userModel';
+import { db } from '@/data/drizzle/db';
+import { usersTable } from '@/data/drizzle/schema';
 
 export const userRepository = {
   findAllAsync: async (): Promise<User[]> => {
-    return users;
+    const usersDB = await db.select().from(usersTable);
+    return usersDB;
   },
 
-  findByIdAsync: async (id: number): Promise<User | null> => {
-    return users.find((user) => user.id === id) || null;
+  findByIdAsync: async (id: string): Promise<User | null> => {
+    const user = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    return user[0];
   },
 };
